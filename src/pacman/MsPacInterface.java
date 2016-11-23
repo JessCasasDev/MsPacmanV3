@@ -6,6 +6,7 @@ import utilities.ElapsedTimer;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import stats.StatisticalSummary;
@@ -29,9 +30,21 @@ import stats.StatisticalSummary;
 public class MsPacInterface {
     // delay between each screen capture
     static int delay = 10;
-    static boolean display = false;
-
+    static boolean display = true;
+    static int[] rect = new int[4];
     public static void main(String[] args) throws Exception {
+    	 String windowName = "Ms. Pac-Man";
+         
+         try {
+            rect = GetWindowRect.getRect(windowName);
+            top =  rect[1] + 57;
+            left = rect[0] + 4;;
+            System.out.println(top + " - " + left);
+         } catch (GetWindowRect.WindowNotFoundException e) {
+            e.printStackTrace();
+         } catch (GetWindowRect.GetWindowRectException e) {
+            e.printStackTrace();
+         }
         MsPacInterface ms = new MsPacInterface();
         StatisticalSummary ss = new StatisticalSummary();
         PacMover pm = new PacMover();
@@ -47,14 +60,14 @@ public class MsPacInterface {
             ms.analyseComponents(pix);
             // System.out.println(pix.length);
             ss.add(t.elapsed());
-            // System.out.println(t);
             int action = ms.ce.gs.agent.move(ms.ce.gs);
+            // System.out.println(t);
             // int action = pa.move(ms.ce.gs);
             pm.move(action);
             tm.log(action, ms.ce.gs);
             if (display) dc.update(action);
             Thread.sleep(delay);
-            // pm.randMove();
+            // pm.randMove();0
         }
         // System.out.println(ss);
     }
@@ -67,8 +80,8 @@ public class MsPacInterface {
         if (display) sd.updateObjects(al);
     }
 
-    static int left = 530;
-    static int top = 274;
+    static int top;//270;
+    static int left;  //570;
     public static int width = 223;
     public static int height = 275;
     int[] pixels;

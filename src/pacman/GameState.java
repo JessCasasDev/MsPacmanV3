@@ -34,7 +34,7 @@ public class GameState implements Drawable {
     Agent agent;
     Vector2d closestPill;
     Vector2d tmp;
-
+    Graph graph = new Graph();
     static int nFeatures = 13;
     double[] vec;
 
@@ -68,11 +68,12 @@ public class GameState implements Drawable {
         } else if (cs.pill()) {
             // keep track of the position of the closest pill
             tmp.set(cs.x, cs.y);
-            if (closestPill == null) {
+            closestPill = graph.nodes.get(30);
+          /*  if (closestPill == null) {
                 closestPill = new Vector2d(tmp);
             } else if (tmp.dist(agent.cur) < closestPill.dist(agent.cur)) {
                 closestPill.set(tmp);
-            }
+            }*/
         }
 
     }
